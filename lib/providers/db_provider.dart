@@ -41,6 +41,7 @@ class DBProvider {
     );
   }
 
+  //Manera larga de hacer el insert
   Future<int> newScanRaw(ScanModel newScan) async {
     final id = newScan.id;
     final type = newScan.type;
@@ -50,15 +51,43 @@ class DBProvider {
 
     final res = await db.rawInsert('''
       INSERT INTO Scans( id, type, value)
-        VALUES( '$id', '$type', '$value')
+        VALUES( $id, '$type', '$value')
       ''');
 
     return res;
   }
 
+  //Manera corta de hacer el insert
   Future<int> newScan(ScanModel newScan) async {
     final db = await database;
     final res = await db.insert('Scans', newScan.toMap());
     return res;
+  }
+
+  Future<ScanModel?> getScanById(int id) async {
+    final db = await database;
+    final res = await db.query('Scans', where: 'id = ?', whereArgs: [id]);
+
+    return res.isNotEmpty ? ScanModel.fromMap(res.first) : null;
+  }
+
+  Future<List<ScanModel>?> getAllScans() async {
+    final db = await database;
+    final res = await db.query('Scans');
+
+    return res.isNotEmpty
+        ? res.map((scan) => ScanModel.fromMap(scan)).toList()
+        : null;
+  }
+
+  Future<List<ScanModel>?> getScansByType(String type) async {
+    final db = await database;
+    final res = await db.rawQuery('''
+    SELECT * FROM Scans WHERE type = '$type'
+    ''');
+
+    return res.isNotEmpty
+        ? res.map((scan) => ScanModel.fromMap(scan)).toList()
+        : null;
   }
 }
