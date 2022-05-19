@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
+import 'package:provider/provider.dart';
+import '../providers/scan_list_provider.dart';
 import 'package:flutter_qrscanner/providers/db_provider.dart';
 import 'package:flutter_qrscanner/providers/ui_provider.dart';
+
+import 'package:flutter_qrscanner/pages/map_page.dart';
+import 'directions_page.dart';
 
 import 'package:flutter_qrscanner/views/directions_view.dart';
 import 'package:flutter_qrscanner/views/maps_view.dart';
@@ -36,17 +40,18 @@ class _HomePageBody extends StatelessWidget {
     final currentIndex = uiProvider.selectedMenuOpt;
 
     final tempScan = ScanModel(value: 'http://bitfried.com');
-    //DBProvider.db.getAllScans().then((value) => print(value![0].id));
-    //DBProvider.db.getScanById(1).then((value) => print(value!.value));
-    //DBProvider.db.getScansByType('http').then((value) => print(value![0]));
-    //DBProvider.db.newScan(tempScan);
+
+    final scanListProvider =
+        Provider.of<ScanListProvider>(context, listen: false);
 
     switch (currentIndex) {
       case 0:
-        return MapsView();
+        scanListProvider.loadScansByType('geo');
+        return MapPage();
 
       case 1:
-        return DirectionsView();
+        scanListProvider.loadScansByType('http');
+        return DirectionsPage();
 
       default:
         return MapsView();
