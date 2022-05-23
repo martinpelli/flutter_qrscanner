@@ -31,9 +31,11 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_barcode_scanner: ^2.0.0
+  google_maps_flutter: ^2.1.5
   path_provider: ^2.0.9
   provider: ^6.0.2
   sqflite: ^2.0.2+1
+  url_launcher: ^6.1.2
 
 dev_dependencies:
   flutter_lints: ^2.0.0

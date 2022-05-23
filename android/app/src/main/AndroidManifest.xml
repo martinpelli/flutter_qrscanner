@@ -4,6 +4,8 @@
         android:label="flutter_qrscanner"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+         <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyCeS6o4xxcXQt9wM9MJlzuW7ciEtUn5uWA"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
